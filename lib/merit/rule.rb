@@ -60,7 +60,7 @@ module Merit
                  end
                end
       if target
-        target.create_sash_if_none
+        target.create_relations_if_new
         target.sash
       end
     end

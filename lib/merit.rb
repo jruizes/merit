@@ -38,8 +38,9 @@ module Merit
 
     initializer 'merit.controller' do |app|
       if Merit.orm == :active_record
-        require "merit/models/#{Merit.orm}/sash"
-        require "merit/models/#{Merit.orm}/badges_sash"
+        require 'merit/models/active_record/sash'
+        require 'merit/models/active_record/badges_sash'
+        require 'merit/models/active_record/merit/score'
       elsif Merit.orm == :mongoid
         require "merit/models/#{Merit.orm}/sash"
       end

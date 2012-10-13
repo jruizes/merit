@@ -26,7 +26,7 @@ class Badge
   # Grant badge to sash
   # Accepts :allow_multiple boolean option, defaults to false
   def grant_to(object_or_sash, *args)
-    object_or_sash.create_sash_if_none unless object_or_sash.kind_of?(Sash)
+    object_or_sash.create_relations_if_new unless object_or_sash.kind_of?(Sash)
     sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
 
     options = args.extract_options!
@@ -42,7 +42,7 @@ class Badge
 
   # Take out badge from sash
   def delete_from(object_or_sash)
-    object_or_sash.create_sash_if_none unless object_or_sash.kind_of?(Sash)
+    object_or_sash.create_relations_if_new unless object_or_sash.kind_of?(Sash)
     sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
     if sash.badge_ids.include?(id)
       sash.rm_badge(id)

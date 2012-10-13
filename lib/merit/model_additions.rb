@@ -24,15 +24,21 @@ module Merit
     end
   end
 
+  # Delegations to sash, creates it if nil
   def badges
-    create_sash_if_none
+    create_relations_if_new
     sash.badges
+  end
+  def points
+    create_relations_if_new
+    sash.points
   end
 
   # Create sash if doesn't have
-  def create_sash_if_none
+  def create_relations_if_new
     if self.sash.blank?
       self.sash = Sash.create
+      self.sash.scores << Merit::Score.create
       self.save(:validate => false)
     end
   end
