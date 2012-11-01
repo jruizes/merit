@@ -12,7 +12,12 @@ module Merit
 
   # Define ORM
   mattr_accessor :orm
-  @@orm = :active_record
+  @@orm =
+    if defined?(ActiveRecord)
+      :active_record
+    elsif defined?(Mongoid)
+      :mongoid
+    end
 
   # Define user_model_name
   mattr_accessor :user_model_name
@@ -37,14 +42,15 @@ module Merit
 
   class Engine < Rails::Engine
     config.app_generators.orm Merit.orm
-
     initializer 'merit.controller' do |app|
       if Merit.orm == :active_record
         require 'merit/models/active_record/sash'
         require 'merit/models/active_record/badges_sash'
         require 'merit/models/active_record/merit/score'
       elsif Merit.orm == :mongoid
-        require "merit/models/mongoid/sash"
+        require 'merit/models/mongoid/sash'
+        require 'merit/models/mongoid/badges_sash'
+        require 'merit/models/mongoid/merit/score'
       end
 
       ActiveSupport.on_load(:action_controller) do
