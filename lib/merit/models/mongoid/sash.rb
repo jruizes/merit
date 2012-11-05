@@ -24,15 +24,16 @@ class Sash
   end
 
   def points(category = 'default')
-    scores.where(:category => category).first.points
+    scores.where(:category => category).sum(:num_points)
   end
 
   def add_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
-    point = Merit::Score::Point.new
-    point.log = log
-    point.num_points = num_points
-    self.scores.where(:category => category).first.score_points << point
+    point = Merit::Score.new(log: log,
+                             num_points: num_points,
+                             category: category)
+    self.scores << point
   end
+
   def substract_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
     add_points -num_points, log, category
   end

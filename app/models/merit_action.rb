@@ -40,7 +40,7 @@ class MeritAction
   def action_user
     begin
       Merit.user_model.find(user_id)
-    rescue ActiveRecord::RecordNotFound
+    rescue # ActiveRecord::RecordNotFound
       Rails.logger.warn "[merit] no #{Merit.user_model} found with id #{user_id}"
       return
     end

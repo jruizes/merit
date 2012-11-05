@@ -4,7 +4,7 @@ module Merit
   # Could split this class between badges and rankings functionality
   class Rule
     attr_accessor :badge_name, :level, :to, :model_name, :level_name,
-      :multiple, :temporary, :score, :block
+      :multiple, :temporary, :score, :block, :category
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)
@@ -53,7 +53,7 @@ module Merit
       end
 
       if applies? action.target_object(model_name)
-        sash.add_points self.score, action.inspect[0..240]
+        sash.add_points self.score, "#{action.target_model}/#{action.action_method}", self.category
         action.log!("points_granted:#{self.score}")
       end
     end
