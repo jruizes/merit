@@ -23,8 +23,12 @@ class Sash
     badges_sashes.find_by_badge_id(badge_id).try(:destroy)
   end
 
-  def points(category = 'default')
-    scores.where(:category => category).sum(:num_points)
+  def points(category)
+    if category
+      scores.where(:category => category).sum(:num_points)
+    else
+      scores.sum(:num_points)
+    end
   end
 
   def add_points(num_points, log = 'Manually granted through `add_points`', category = 'default')

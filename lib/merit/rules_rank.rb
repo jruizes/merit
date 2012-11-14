@@ -38,7 +38,7 @@ module Merit
                 obj.update_attribute rule.level_name, level
               end
             end
-          rescue ActiveRecord::StatementInvalid
+          rescue
             Rails.logger.warn "[merit] Please add #{rule.level_name} column/attribute to #{scoped_model.new.class.name}"
           end
         end
