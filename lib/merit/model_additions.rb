@@ -25,16 +25,16 @@ module Merit
   end
 
   # Delegate relationship methods from meritable models to their sash
-  %w(badge_ids badges).each do |method|
+  %w(badge_ids badges points).each do |method|
     define_method(method) do
       _sash = sash || create_sash_and_scores
       _sash.send method
     end
   end
 
-  def points(category = nil)
+  def sum_points(category = nil)
     _sash = sash || create_sash_and_scores
-    sash.points(category)
+    sash.sum_points(category)
   end
 
   def add_points(num_points, log = 'Manually granted through `add_points`', category = 'default')

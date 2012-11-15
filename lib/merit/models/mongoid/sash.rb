@@ -5,12 +5,11 @@ class Sash
   has_many :badges_sashes, :dependent => :destroy
   has_many :scores, :dependent => :destroy, :class_name => 'Merit::Score'
 
-  def badges
-    badge_ids.collect { |b_id| Badge.find(b_id) }
-  end
+  alias :points :scores
 
-  def badge_ids
-    badges_sashes.map(&:badge_id)
+  def badges
+    badge_ids badges_sashes.map(&:badge_id)
+    badge_ids.collect { |b_id| Badge.find(b_id) }
   end
 
   def add_badge(badge_id)
@@ -23,7 +22,7 @@ class Sash
     badges_sashes.find_by_badge_id(badge_id).try(:destroy)
   end
 
-  def points(category)
+  def sum_points(category)
     if category
       scores.where(:category => category).sum(:num_points)
     else
