@@ -8,8 +8,11 @@ class Sash
   alias :points :scores
 
   def badges
-    badge_ids badges_sashes.map(&:badge_id)
     badge_ids.collect { |b_id| Badge.find(b_id) }
+  end
+
+  def badge_ids
+    badges_sashes.map(&:badge_id)
   end
 
   def add_badge(badge_id)
