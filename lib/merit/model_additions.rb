@@ -25,7 +25,7 @@ module Merit
   end
 
   # Delegate relationship methods from meritable models to their sash
-  %w(badge_ids badges points).each do |method|
+  %w(badge_ids badges scores).each do |method|
     define_method(method) do
       _sash = sash || create_sash_and_scores
       _sash.send method

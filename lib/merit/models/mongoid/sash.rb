@@ -5,8 +5,6 @@ class Sash
   has_many :badges_sashes, :dependent => :destroy
   has_many :scores, :dependent => :destroy, :class_name => 'Merit::Score'
 
-  alias :points :scores
-
   def badges
     badge_ids.collect { |b_id| Badge.find(b_id) }
   end
