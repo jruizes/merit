@@ -4,12 +4,11 @@ module Merit
   # Could split this class between badges and rankings functionality
   class Rule
     attr_accessor :badge_name, :level, :to, :model_name, :level_name,
-      :multiple, :temporary, :score, :block, :category
+      :multiple, :temporary, :score, :block, :after_block, :category
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)
       return true if block.nil? # no block given: always true
-
       case block.arity
       when 1 # Expects target object
         if target_obj.present?
@@ -51,10 +50,10 @@ module Merit
         Rails.logger.warn "[merit] no sash found on Rule#grant_points"
         return
       end
-
       if applies? action.target_object(model_name)
         sash.add_points self.score, "#{action.target_model}/#{action.action_method}", self.category
         action.log!("points_granted:#{self.score}")
+        self.after_block.call(action.target_object(model_name)) if self.after_block
       end
     end
 

@@ -8,6 +8,7 @@ module Merit
       options = args.extract_options!
       options[:to] ||= [:action_user]
       category = options[:category] || 'default'
+      after_block = options[:after_block]
       actions = Array.wrap(options[:on])
 
       Array.wrap(options[:to]).each do |to|
@@ -15,6 +16,7 @@ module Merit
         rule.score = points
         rule.to    = to
         rule.block = block
+        rule.after_block = after_block
         rule.category = category
 
         actions.each do |action|
